@@ -13,6 +13,7 @@ class NewsItem(scrapy.Item):
     # name = scrapy.Field()
     newsTitle = scrapy.Field()
     newsUrl = scrapy.Field()
+    newsUrlMd5 = scrapy.Field()
     newsClick = scrapy.Field()
     newsPublishTime = scrapy.Field()
     newsContent = scrapy.Field()

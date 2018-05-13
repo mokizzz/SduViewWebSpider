@@ -27,7 +27,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs 爬取间隔，防止封IP
-DOWNLOAD_DELAY = 0.25
+DOWNLOAD_DELAY = 0.33
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -65,8 +65,13 @@ DOWNLOAD_DELAY = 0.25
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'sduspider.pipelines.SduspiderPipeline': 300,
+   'sduspider.pipelines.JsonPipeline': 300,
+   'sduspider.pipelines.MongoDBPipeline' : 500,
 }
+MONGODB_HOST = "localhost"
+MONGODB_PORT = 27017
+MONGODB_DBNAME = "sdu_view_db"
+MONGODB_SHEETNAME = "news"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -95,7 +100,9 @@ ITEM_PIPELINES = {
 # SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleLifoDiskQueue'
 # SCHEDULER_MEMORY_QUEUE = 'scrapy.squeue.LifoMemoryQueue'
 # 先进先出，广度优先
-
 DEPTH_PRIORITY = 1
 SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleFifoDiskQueue'
 SCHEDULER_MEMORY_QUEUE = 'scrapy.squeue.FifoMemoryQueue'
+
+# 断点续爬，Ctrl+C中断，下次自动继续爬
+# JOBDIR='pause'
