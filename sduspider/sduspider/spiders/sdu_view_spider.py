@@ -1,8 +1,8 @@
 import scrapy
 import re
 import requests
+import shelve
 from items import NewsItem
-from queue import Queue
 from urllib.parse import urljoin
 
 
@@ -13,12 +13,57 @@ class SduViewSpider(scrapy.Spider):
     allowed_domains = ['view.sdu.edu.cn']
     # 爬取的起始地址
     start_urls = ['http://www.view.sdu.edu.cn/index.htm']
+    # 将要爬取的地址列表
+    destination_list = start_urls
     # 已爬取地址md5集合
-    url_md5_list = []
+    url_md5_seen = []
+    # 断点续爬计数器
+    counter = 0
+    # 保存频率，每多少次爬取保存一次断点
+    save_frequency = 50
+
+    # 重写init
+    def __init__(self):
+        super
+        # 读取以保存的断点
+        import os
+        if not os.path.exists('./pause/'):
+            os.mkdir('./pause/')
+        response_seen = shelve.open('./pause/response.seen')
+        if len(response_seen.dict) > 0:
+            self.url_md5_seen = response_seen['seen_list']
+        response_seen.close()
+
+        response_destination = shelve.open('./pause/response.dest')
+        if len(response_destination.dict) > 0:
+            self.start_urls = response_destination['destination_list']
+            self.destination_list = response_destination['destination_list']
+        response_destination.close()
+
+        self.counter += 1
 
     # 爬取方法
     def parse(self, response):
+
+        # 断点续爬功能之保存断点
+        if self.counter % self.save_frequency == 0:   # 爬虫经过save_frequency次爬取后
+            print('Rayiooo：正在保存爬虫断点....')
+
+            response_seen = shelve.open('./pause/response.seen')
+            response_seen['seen_list'] = self.url_md5_seen
+            response_seen.close()
+
+            response_destination = shelve.open('./pause/response.dest')
+            response_destination['destination_list'] = self.destination_list
+            response_destination.close()
+
+            self.counter = self.save_frequency
+
+        self.counter += 1   # 计数器+1
+
+        # 爬取当前网页
         print('start parse : ' + response.url)
+        self.destination_list.remove(response.url)
         if response.url.startswith("http://www.view.sdu.edu.cn/info/"):
             item = NewsItem()
             for box in response.xpath('//div[@class="new_show clearfix"]/div[@class="le"]'):
@@ -52,6 +97,8 @@ class SduViewSpider(scrapy.Spider):
 
                 # yield it
                 yield item
+
+        # 获取当前网页所有url并宽度爬取
         urls = response.xpath('//a/@href').extract()
         for url in urls:
             real_url = urljoin(response.url, url)   # 将.//等简化url转化为真正的http格式url
@@ -61,15 +108,16 @@ class SduViewSpider(scrapy.Spider):
                 continue    # 图片资源不爬
             # md5 check
             md5_url = self.md5(real_url)
-            # assert (self.binary_md5_url_search(md5_url) == -1) ^ (md5_url in self.url_md5_list)
+            # assert (self.binary_md5_url_search(md5_url) == -1) ^ (md5_url in self.url_md5_seen)
             if self.binary_md5_url_search(md5_url) > -1:    # 存在当前MD5
                 pass
             else:
                 self.binary_md5_url_insert(md5_url)
                 # print(md5_url)
-                if real_url.startswith('http'):
+                # if real_url.startswith('http'):
                     # print(real_url)
-                    yield scrapy.Request(real_url, callback=self.parse)
+                self.destination_list.append(real_url)
+                yield scrapy.Request(real_url, callback=self.parse)
 
     def md5(self, val):
         import hashlib
@@ -81,32 +129,32 @@ class SduViewSpider(scrapy.Spider):
     # 二分法md5集合排序插入self.url_md5_set--16进制md5字符串集
     def binary_md5_url_insert(self, md5_item):
         low = 0
-        high = len(self.url_md5_list)
+        high = len(self.url_md5_seen)
         while(low < high):
             mid = (int)(low + (high - low)/2)
-            if self.url_md5_list[mid] < md5_item:
+            if self.url_md5_seen[mid] < md5_item:
                 low = mid + 1
-            elif self.url_md5_list[mid] >= md5_item:
+            elif self.url_md5_seen[mid] >= md5_item:
                 high = mid
-        self.url_md5_list.insert(low, md5_item)
+        self.url_md5_seen.insert(low, md5_item)
 
     # 二分法查找url_md5存在于self.url_md5_set的位置，不存在返回-1
     def binary_md5_url_search(self, md5_item):
         low = 0
-        high = len(self.url_md5_list)
+        high = len(self.url_md5_seen)
         if high == 0:
             return -1
         while (low < high):
             mid = (int)(low + (high - low) / 2)
-            if self.url_md5_list[mid] < md5_item:
+            if self.url_md5_seen[mid] < md5_item:
                 low = mid + 1
-            elif self.url_md5_list[mid] > md5_item:
+            elif self.url_md5_seen[mid] > md5_item:
                 high = mid
-            elif self.url_md5_list[mid] == md5_item:
+            elif self.url_md5_seen[mid] == md5_item:
                 return mid
-        if low >= self.url_md5_list.__len__():
+        if low >= self.url_md5_seen.__len__():
             return -1
-        if self.url_md5_list[low] == md5_item:
+        if self.url_md5_seen[low] == md5_item:
             return low
         else:
             return -1
