@@ -46,20 +46,7 @@ class SduViewSpider(scrapy.Spider):
     def parse(self, response):
 
         # 断点续爬功能之保存断点
-        if self.counter % self.save_frequency == 0:   # 爬虫经过save_frequency次爬取后
-            print('Rayiooo：正在保存爬虫断点....')
-
-            response_seen = shelve.open('./pause/response.seen')
-            response_seen['seen_list'] = self.url_md5_seen
-            response_seen.close()
-
-            response_destination = shelve.open('./pause/response.dest')
-            response_destination['destination_list'] = self.destination_list
-            response_destination.close()
-
-            self.counter = self.save_frequency
-
-        self.counter += 1   # 计数器+1
+        self.counter_plus()
 
         # 爬取当前网页
         print('start parse : ' + response.url)
@@ -104,7 +91,7 @@ class SduViewSpider(scrapy.Spider):
             real_url = urljoin(response.url, url)   # 将.//等简化url转化为真正的http格式url
             if not (real_url.startswith('http://www.view.sdu.edu.cn') or real_url.startswith('http://view.sdu.edu.cn')):
                 continue    # 保持爬虫在view.sdu.edu.cn之内
-            if real_url.endswith('.jpg'):
+            if real_url.endswith('.jpg') or real_url.endswith('.pdf'):
                 continue    # 图片资源不爬
             # md5 check
             md5_url = self.md5(real_url)
@@ -117,7 +104,7 @@ class SduViewSpider(scrapy.Spider):
                 # if real_url.startswith('http'):
                     # print(real_url)
                 self.destination_list.append(real_url)
-                yield scrapy.Request(real_url, callback=self.parse)
+                yield scrapy.Request(real_url, callback=self.parse, errback=self.errback_httpbin)
 
     def md5(self, val):
         import hashlib
@@ -158,3 +145,27 @@ class SduViewSpider(scrapy.Spider):
             return low
         else:
             return -1
+
+    # counter++，并在合适的时候保存断点
+    def counter_plus(self):
+        # 断点续爬功能之保存断点
+        if self.counter % self.save_frequency == 0:  # 爬虫经过save_frequency次爬取后
+            print('Rayiooo：正在保存爬虫断点....')
+
+            response_seen = shelve.open('./pause/response.seen')
+            response_seen['seen_list'] = self.url_md5_seen
+            response_seen.close()
+
+            response_destination = shelve.open('./pause/response.dest')
+            response_destination['destination_list'] = self.destination_list
+            response_destination.close()
+
+            self.counter = self.save_frequency
+
+        self.counter += 1  # 计数器+1
+
+    # scrapy.request请求失败后的处理
+    def errback_httpbin(self, failure):
+        self.destination_list.remove(failure.request._url)
+        print('Error 404 url deleted: ' + failure.request._url)
+        self.counter_plus()
