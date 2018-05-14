@@ -1,5 +1,5 @@
 # README
-信息检索课程设计sdu视点新闻全站爬取（view.sdu.edu.cn）练习程序（1805），使用Python的Scrapy库进行实现。
+信息检索课程设计sdu视点新闻全站爬取（[view.sdu.edu.cn]）练习程序（1805），使用Python的Scrapy库进行实现。
 
 |Author|爱吃大板|
 |---|---
@@ -31,5 +31,8 @@ Scrapy库自带了查重去重的功能，但为了保证效率，自行编写�
 每隔一段时间都会将当前爬虫状态存储在pause文件夹下，重新运行爬虫时会继续上一次保存的断点进行爬取。Scrapy有自带的断点续爬功能（在settings.py中设置），但貌似在Pycharm中行不通。
 # 参考资料
 [scrapy爬虫框架入门实例](https://blog.csdn.net/zjiang1994/article/details/52779537)
+
 [笔记：scrapy爬取的数据存入MySQL，MongoDB](https://blog.csdn.net/wqh_jingsong/article/details/54981344)
+
 [搜索那些事 - 用Golang写一个搜索引擎(0x00) --- 从零开始（分享自知乎网）](https://zhuanlan.zhihu.com/p/20938685?utm_source=qq&utm_medium=social&utm_member=MWIxZDY0Nzg4YWQ5ODRkYzhlNzAyMDZiMTgwZTE0NzM%3D%0A)
+
