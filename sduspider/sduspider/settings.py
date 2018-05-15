@@ -71,7 +71,7 @@ ITEM_PIPELINES = {
 MONGODB_HOST = "localhost"
 MONGODB_PORT = 27017
 MONGODB_DBNAME = "sdu_view_db"
-MONGODB_SHEETNAME = "news"
+MONGODB_SHEETNAME = "views"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html

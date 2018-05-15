@@ -1,7 +1,7 @@
 import scrapy
 import re
 import requests
-import shelve
+import pickle
 from items import NewsItem
 from urllib.parse import urljoin
 
@@ -25,20 +25,38 @@ class SduViewSpider(scrapy.Spider):
     # 重写init
     def __init__(self):
         super
-        # 读取以保存的断点
+        # 读取已保存的断点
         import os
         if not os.path.exists('./pause/'):
             os.mkdir('./pause/')
-        response_seen = shelve.open('./pause/response.seen')
-        if len(response_seen.dict) > 0:
-            self.url_md5_seen = response_seen['seen_list']
-        response_seen.close()
+        if not os.path.isfile('./pause/response.seen'):
+            f = open('./pause/response.seen', 'wb')
+            f.close()
+        if not os.path.isfile('./pause/response.dest'):
+            f = open('./pause/response.dest', 'wb')
+            f.close()
 
-        response_destination = shelve.open('./pause/response.dest')
-        if len(response_destination.dict) > 0:
-            self.start_urls = response_destination['destination_list']
-            self.destination_list = response_destination['destination_list']
-        response_destination.close()
+        f = open('./pause/response.seen', 'rb')
+        if os.path.getsize('./pause/response.seen') > 0:
+            self.url_md5_seen = pickle.load(f)
+        f.close()
+        f = open('./pause/response.dest', 'rb')
+        if os.path.getsize('./pause/response.dest') > 0:
+            self.start_urls = pickle.load(f)
+            self.destination_list = self.start_urls
+        f.close()
+
+        # shelve存取法造成了重复存储，存储文件高达1G，因此不予采用，改用pickle法
+        # response_seen = shelve.open('./pause/response.seen')
+        # if len(response_seen.dict) > 0:
+        #     self.url_md5_seen = response_seen['seen_list']
+        # response_seen.close()
+
+        # response_destination = shelve.open('./pause/response.dest')
+        # if len(response_destination.dict) > 0:
+        #     self.start_urls = response_destination['destination_list']
+        #     self.destination_list = response_destination['destination_list']
+        # response_destination.close()
 
         self.counter += 1
 
@@ -89,7 +107,8 @@ class SduViewSpider(scrapy.Spider):
         urls = response.xpath('//a/@href').extract()
         for url in urls:
             real_url = urljoin(response.url, url)   # 将.//等简化url转化为真正的http格式url
-            if not (real_url.startswith('http://www.view.sdu.edu.cn') or real_url.startswith('http://view.sdu.edu.cn')):
+            if not real_url.startswith('http://www.view.sdu.edu.cn'):
+                # and not real_url.startswith('http://view.sdu.edu.cn')
                 continue    # 保持爬虫在view.sdu.edu.cn之内
             if real_url.endswith('.jpg') or real_url.endswith('.pdf'):
                 continue    # 图片资源不爬
@@ -113,12 +132,48 @@ class SduViewSpider(scrapy.Spider):
         key = ha.hexdigest()
         return key
 
+
+
+    # counter++，并在合适的时候保存断点
+    def counter_plus(self):
+        print('待爬取网址数：' + (str)(len(self.destination_list)))
+        # 断点续爬功能之保存断点
+        if self.counter % self.save_frequency == 0:  # 爬虫经过save_frequency次爬取后
+            print('Rayiooo：正在保存爬虫断点....')
+
+            f = open('./pause/response.seen', 'wb')
+            pickle.dump(self.url_md5_seen, f)
+            f.close()
+
+            f = open('./pause/response.dest', 'wb')
+            pickle.dump(self.destination_list, f)
+            f.close()
+
+            # 弃用的shelve存储法
+            # response_seen = shelve.open('./pause/response.seen')
+            # response_seen['seen_list'] = self.url_md5_seen
+            # response_seen.close()
+            #
+            # response_destination = shelve.open('./pause/response.dest')
+            # response_destination['destination_list'] = self.destination_list
+            # response_destination.close()
+
+            self.counter = self.save_frequency
+
+        self.counter += 1  # 计数器+1
+
+    # scrapy.request请求失败后的处理
+    def errback_httpbin(self, failure):
+        self.destination_list.remove(failure.request._url)
+        print('Error 404 url deleted: ' + failure.request._url)
+        self.counter_plus()
+
     # 二分法md5集合排序插入self.url_md5_set--16进制md5字符串集
     def binary_md5_url_insert(self, md5_item):
         low = 0
         high = len(self.url_md5_seen)
-        while(low < high):
-            mid = (int)(low + (high - low)/2)
+        while (low < high):
+            mid = (int)(low + (high - low) / 2)
             if self.url_md5_seen[mid] < md5_item:
                 low = mid + 1
             elif self.url_md5_seen[mid] >= md5_item:
@@ -145,27 +200,3 @@ class SduViewSpider(scrapy.Spider):
             return low
         else:
             return -1
-
-    # counter++，并在合适的时候保存断点
-    def counter_plus(self):
-        # 断点续爬功能之保存断点
-        if self.counter % self.save_frequency == 0:  # 爬虫经过save_frequency次爬取后
-            print('Rayiooo：正在保存爬虫断点....')
-
-            response_seen = shelve.open('./pause/response.seen')
-            response_seen['seen_list'] = self.url_md5_seen
-            response_seen.close()
-
-            response_destination = shelve.open('./pause/response.dest')
-            response_destination['destination_list'] = self.destination_list
-            response_destination.close()
-
-            self.counter = self.save_frequency
-
-        self.counter += 1  # 计数器+1
-
-    # scrapy.request请求失败后的处理
-    def errback_httpbin(self, failure):
-        self.destination_list.remove(failure.request._url)
-        print('Error 404 url deleted: ' + failure.request._url)
-        self.counter_plus()
