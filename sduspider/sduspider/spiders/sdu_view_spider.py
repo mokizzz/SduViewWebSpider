@@ -112,6 +112,8 @@ class SduViewSpider(scrapy.Spider):
                 continue    # 保持爬虫在view.sdu.edu.cn之内
             if real_url.endswith('.jpg') or real_url.endswith('.pdf'):
                 continue    # 图片资源不爬
+            if '.jsp?' in real_url:
+                continue    # 动态网站不爬，太tm多了
             # md5 check
             md5_url = self.md5(real_url)
             # assert (self.binary_md5_url_search(md5_url) == -1) ^ (md5_url in self.url_md5_seen)

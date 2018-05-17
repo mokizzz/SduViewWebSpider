@@ -65,7 +65,7 @@ DOWNLOAD_DELAY = 0.33
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'sduspider.pipelines.JsonPipeline': 300,
+   # 'sduspider.pipelines.JsonPipeline': 300,
    'sduspider.pipelines.MongoDBPipeline' : 500,
 }
 MONGODB_HOST = "localhost"

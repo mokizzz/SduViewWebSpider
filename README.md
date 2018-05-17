@@ -24,12 +24,14 @@
 * MongoDB
 * Mongo Management Studio 可视化工具（可选）
 ## 爬虫特性
-### (1)二分法去重
+### (1)宽度优先搜索爬取
+爬虫基于宽度优先搜索，对[http://www.view.sdu.edu.cn/](http://www.view.sdu.edu.cn/)区段的网址进行爬取，并将[http://www.view.sdu.edu.cn/info/](http://www.view.sdu.edu.cn/info/)区段的新闻内容提取出来。
+### (2)二分法去重
 所有已经爬取过的网址都会以MD5特征的形式顺序存储在list中，当获取新的url时，通过二分法查找list中是否存在该url的特征值，以达到去重的目的。
 
 Scrapy库自带了查重去重的功能，但为了保证效率，自行编写了二分法去重，但并未关闭scrapy库自带的去重功能。
-### (2)断点续爬
-每隔一段时间都会将当前爬虫状态存储在pause文件夹下，重新运行爬虫时会继续上一次保存的断点进行爬取。Scrapy有自带的断点续爬功能（在settings.py中设置），但貌似在Pycharm中行不通。
+### (3)断点续爬
+每爬取一定次数后都会将当前爬虫状态存储在pause文件夹下，重新运行爬虫时会继续上一次保存的断点进行爬取。Scrapy有自带的断点续爬功能（在settings.py中设置），但貌似在Pycharm中行不通。
 ## 参考资料
 [scrapy爬虫框架入门实例](https://blog.csdn.net/zjiang1994/article/details/52779537)
 
