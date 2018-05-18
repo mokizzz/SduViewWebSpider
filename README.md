@@ -1,5 +1,9 @@
 # README
-信息检索课程设计sdu视点新闻全站爬取（view.sdu.edu.cn）练习程序（1805），使用Python的Scrapy库进行实现。
+信息检索课程设计[sdu视点新闻](http://view.sdu.edu.cn/)全站爬虫爬取+索引构建+搜索引擎查询练习程序（1805）。
+
+爬虫功能使用Python的scrapy库实现，并用MongoDB数据库进行存储。
+
+索引构建和搜索功能用Python的Whoosh和jieba库实现。由于lucene是java库，所以pyLucene库的安装极其麻烦，因此选用Python原生库Whoosh实现，并使用jieba进行中文分词。
 
 |Author|爱吃大板|
 |---|---
@@ -20,6 +24,8 @@
 * scrapy
 * requests
 * pymongo
+* Whoosh
+* jieba
 ## 所需数据库
 * MongoDB
 * Mongo Management Studio 可视化工具（可选）
@@ -39,3 +45,6 @@ Scrapy库自带了查重去重的功能，但为了保证效率，自行编写�
 
 [搜索那些事 - 用Golang写一个搜索引擎(0x00) --- 从零开始（分享自知乎网）](https://zhuanlan.zhihu.com/p/20938685?utm_source=qq&utm_medium=social&utm_member=MWIxZDY0Nzg4YWQ5ODRkYzhlNzAyMDZiMTgwZTE0NzM%3D%0A)
 
+[Whoosh + jieba 中文检索](https://www.jianshu.com/p/127c8c0b908a)
+
+[利用whoosh对mongoDB的中文文档建立全文检索](https://www.cnblogs.com/Micang/p/6346437.html)

@@ -17,3 +17,4 @@ class NewsItem(scrapy.Item):
     newsClick = scrapy.Field()
     newsPublishTime = scrapy.Field()
     newsContent = scrapy.Field()
+    indexed = scrapy.Field()    # 索引构建过了没有的flag

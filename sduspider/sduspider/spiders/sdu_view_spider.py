@@ -100,6 +100,9 @@ class SduViewSpider(scrapy.Spider):
                 regexp = re.compile(r'<[^>]+>', re.S)
                 item['newsContent'] = regexp.sub('',item['newsContent'])    # delete html <>
 
+                # 索引构建flag
+                item['indexed'] = 'False'
+
                 # yield it
                 yield item
 
