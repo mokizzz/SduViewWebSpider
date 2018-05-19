@@ -19,7 +19,11 @@
 * 3. __检索排序__
 对上一步构建的索引库进行查询，对于给定的查询，给出检索结果，明白排序的原理及方法。
 ## 运行方式
-运行 sduspider/run.py.
+运行 sduspider/run.py 来进行网络爬虫，这个过程将持续十多个小时，但可以随时终止，在下次运行时继续。
+
+运行 indexbuilder/index_builder.py 来对数据库中的数据构建索引，该过程将持续几个小时，但可以随时终止。
+
+如果不熟悉Whoosh库的构建索引和query搜索功能，可以参考运行 indexbuilder/sample.py 。
 ## 所需python库
 * scrapy
 * requests
