@@ -1,5 +1,5 @@
-from whoosh.fields import *
-from whoosh.index import *
+from whoosh.fields import Schema, ID, TEXT, NUMERIC
+from whoosh.index import create_in, open_dir
 # from whoosh.query import *
 # from whoosh.qparser import *
 from jieba.analyse import ChineseAnalyzer
@@ -42,7 +42,8 @@ class IndexBuilder:
         writer = ix.writer()
         indexed_amount = 0
         total_amount = self.pagesCollection.find().count()
-        print(total_amount)
+        false_amount = self.pagesCollection.find({'indexed': 'False'}).count()
+        print(false_amount, '/', total_amount)
         while True:
             try:
                 row = self.pagesCollection.find_one({'indexed': 'False'})
@@ -68,7 +69,7 @@ class IndexBuilder:
                     writer.commit()     # 每次构建提交一次
                     writer = ix.writer()    # 然后重新打开
                     indexed_amount += 1
-                    print(indexed_amount, '/', total_amount)
+                    print(indexed_amount, '/', false_amount, '/', total_amount)
             except:
                 print(row['_id'], '异常.')
                 print('已处理', indexed_amount, '/', total_amount, '项.')

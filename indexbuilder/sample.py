@@ -1,7 +1,7 @@
-from whoosh.fields import *
-from whoosh.index import *
+from whoosh.fields import Schema, TEXT, ID
+from whoosh.index import create_in, open_dir
 from whoosh.query import *
-from whoosh.qparser import *
+from whoosh.qparser import QueryParser
 from jieba.analyse import ChineseAnalyzer
 
 # whoosh+jieba 初步学习样例
