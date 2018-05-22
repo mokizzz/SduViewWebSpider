@@ -28,8 +28,9 @@
 * scrapy
 * requests
 * pymongo
-* Whoosh
+* whoosh
 * jieba
+* django
 ## 所需数据库
 * MongoDB
 * Mongo Management Studio 可视化工具（可选）
@@ -52,3 +53,5 @@ Scrapy库自带了查重去重的功能，但为了保证效率，自行编写�
 [Whoosh + jieba 中文检索](https://www.jianshu.com/p/127c8c0b908a)
 
 [利用whoosh对mongoDB的中文文档建立全文检索](https://www.cnblogs.com/Micang/p/6346437.html)
+
+[Django 创建第一个项目](http://www.runoob.com/django/django-first-app.html)
