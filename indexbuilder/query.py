@@ -5,8 +5,11 @@ from whoosh import sorting
 
 
 class Query:
-    def __init__(self):
-        self.ix = open_dir('index')
+    def __init__(self, mydir=None):
+        if mydir is None:
+            self.ix = open_dir('index')
+        else:
+            self.ix = open_dir(mydir)
         self.searcher = self.ix.searcher()
 
     def search(self, parameter):
@@ -35,8 +38,10 @@ class Query:
         results = self.searcher.search(myquery, limit=_limit, sortedby=[scores,date])
         print(len(results))
 
-        for i in range(1, len(results)):
-            print(results[i - 1])
+        for i in results:
+            print(i['newsTitle'])
+
+        return results
 
     def standard_search(self, query):
         parameter = {
@@ -52,5 +57,5 @@ class Query:
         print('Query close.')
 
 
-q = Query()
-q.standard_search('软件园校区')
+# q = Query('../indexbuilder/index')
+# q.standard_search('软件园校区')

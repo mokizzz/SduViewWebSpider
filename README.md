@@ -5,6 +5,8 @@
 
 索引构建和搜索功能用Python的Whoosh和jieba库实现。由于lucene是java库，所以pyLucene库的安装极其麻烦，因此选用Python原生库Whoosh实现，并使用jieba进行中文分词。
 
+搜索网页界面用django实现，页面模板套用[BootCDN](http://www.bootcdn.cn/)。
+
 |Author|爱吃大板|
 |---|---
 |E-mail|rayiooo@foxmail.com
@@ -24,6 +26,8 @@
 运行 indexbuilder/index_builder.py 来对数据库中的数据构建索引，该过程将持续几个小时，但可以随时终止。
 
 如果不熟悉Whoosh库的构建索引和query搜索功能，可以参考运行 indexbuilder/sample.py 。
+
+运行 searchengine/run_server.py 打开搜索网页服务器，在浏览器中打开[127.0.0.1:8000](127.0.0.1:8000)进入搜索页面执行搜索。
 ## 所需python库
 * scrapy
 * requests
@@ -55,3 +59,5 @@ Scrapy库自带了查重去重的功能，但为了保证效率，自行编写�
 [利用whoosh对mongoDB的中文文档建立全文检索](https://www.cnblogs.com/Micang/p/6346437.html)
 
 [Django 创建第一个项目](http://www.runoob.com/django/django-first-app.html)
+
+[Django模板系统(非常详细)](https://blog.csdn.net/zhangxinrun/article/details/8095118/)

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}Rayiooo Search{% endblock %}</title>
+  <meta name="description" content="Rayiooo Search 是sdu校园新闻的一款搜索引擎。" />
+  <meta name="keywords" content="" />
+  <meta name="author" content="Rayiooo" />
+  <meta name="founder" content="Rayiooo" />
+  <link href="https://cdn.bootcss.com" rel="dns-prefetch" />
+  <link href="https://api.bootcdn.cn" rel="dns-prefetch" />
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <!--[if IE 9]>
+    <script src="https://cdn.bootcss.com/geopattern/1.2.3/js/base64.min.js"></script>
+    <script src="https://cdn.bootcss.com/geopattern/1.2.3/js/typedarray.min.js"></script>
+  <![endif]-->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/ico/apple-touch-icon-144-precomposed.png?1526622111831" />
+  <link rel="shortcut icon" href="/assets/ico/favicon.ico?1526622111831" />
+<!--   <script>var build = 1526622111831;</script>
+  <script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?24aff315392dc2c9b2805cfa4d8e101a";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();</script> -->
+ </head>
+ <body class="home-template">
+  <header class="site-header" style="background: #795548">
+   <nav class="navbar navbar-static-top main-navbar" id="top">
+    <div class="container">
+     <div class="navbar-header">
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button>
+      <a href="/" class="navbar-brand brand-bootcdn text-hide" onclick="_hmt.push(['_trackEvent', 'main-navbar', 'click', 'main-navbar-bootcdn'])">BootCDN</a>
+     </div>
+     <nav id="bs-navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+       <li>API</li>
+       <li>博客</li>
+       <li>关于</li>
+      </ul>
+     </nav>
+    </div>
+   </nav>
+   <div class="container jumbotron" style="background: #795548">
+    <div class="row">
+     <div class="col-xs-12">
+      <h1 style="color: #FFFFFF; text-align: center; text-shadow: black 0.1em 0.1em 0.2em;">Rayiooo Searcher</h1>
+      <p style="text-align: center; color: #FFFFFF;">稳定、快速、免费的SDU新闻搜索服务<br />
+        <span class="package-amount" style="text-align: center; color: #FFFFFF;">共收录了 <strong>72568</strong> 条新闻</span>
+      </p>
+      <div class="search-wraper" role="search">
+        <form action="search" method="GET">
+          <input class="form-control search clearable" placeholder="搜索新闻，例如：计算机学院" autocomplete="off" autofocus="" tabindex="0" autocorrect="off" autocapitalize="off" spellcheck="false" style="width: 100%;" name="q" value="{% block search %}{% endblock %}"/>
+   <!--        <input class="form-control search clearable" type="button" name="submit" value="搜索">
+          <i class="fa fa-search"></i> -->
+        </form>
+      </div>
+     </div>
+    </div>
+   </div>
+  </header>
+
+  <div class="container protocal-notice hidden-xs">
+   <div class="row">
+    <div class="col-xs-12">
+     <div class="pull-right">
+      {% block resultAmount %}
+       拒绝流量劫持，全面使用 HTTPS！
+      {% endblock %}
+     </div>
+    </div>
+   </div>
+  </div>
+
+  <main class="packages-list-container" id="all-packages" style="font-family: 'Microsoft JhengHei'">
+   <div class="container">
+    <div class="list-group packages" id="common-packages">
+     {% block content %}
+
+     {% endblock %}
+     <a href="/all/" class="package list-group-item all-packages" target="_blank">所有项目列表</a>
+    </div>
+    <div class="list-group packages" id="search-results" style="display: none"></div>
+   </div>
+  </main>
+
+  <footer id="footer" class="footer hidden-print" style="background: #795548;">
+   <div class="container">
+    <div class="row">
+     <div class="footer-about col-md-6 col-sm-12" id="about">
+      <h4>关于 RayioooSearch</h4>
+      <p>RayioooSearch 是 <a href="http://www.bootcss.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-bootcss.com'])">RayioooSearch 新闻搜索网</a>支持并维护的前端开源项目免费 CDN 服务，致力于为 Bootstrap、jQuery、Angular、Vuejs 一样优秀的前端开源项目提供稳定、快速的免费 CDN 加速服务。BootCDN 所收录的开源项目主要同步于 <a href="https://github.com/cdnjs/cdnjs" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-github.com'])">cdnjs</a> 仓库。</p>
+      <p>自2013年10月31日上线以来已经为30多万家网站提供了稳定、可靠的免费 CDN 加速服务。</p>
+      <p>反馈或建议请发送邮件至：cdn@bootcss.com</p>
+     </div>
+     <div class="footer-links col-md-4 col-sm-12">
+      <h4>友情链接</h4>
+      <ul class="list-unstyled list-inline">
+       <li><a href="http://www.bootcss.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-bootcss.com'])">Bootstrap中文网</a></li>
+       <li><a href="http://www.ghostchina.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-ghostchina.com'])">Ghost中国</a></li>
+       <li><a href="http://www.golaravel.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-golaravel.com'])">Laravel中文网</a></li>
+       <li><a href="https://www.jquery123.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-jquery123.com'])">jQuery中文文档</a></li>
+       <li><a href="https://www.webpackjs.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-webpackjs.com'])">Webpack中文网</a></li>
+       <li><a href="https://www.npmjs.com.cn/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-www-npmjs.com.cn'])">NPM中文网</a></li>
+       <li><a href="https://www.quanzhanketang.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-www-quanzhanketang.com'])">全栈课堂</a></li>
+       <li><a href="http://www.91php.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-www-91php.com'])">91PHP</a></li>
+       <li><a href="https://www.nodeapp.cn/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-www-nodeapp.cn'])">Node.js中文文档</a></li>
+      </ul>
+     </div>
+     <div class="footer-techs col-md-2 col-sm-12">
+      <h4>我们用到的技术</h4>
+      <ul class="list-unstyled list-inline">
+       <li><a href="http://www.bootcss.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-bootcss.com'])">Bootstrap</a></li>
+       <li><a href="http://www.ghostchina.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-ghostchina.com'])">Ghost</a></li>
+       <li><a href="https://www.jquery123.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-jquery123.com'])">jQuery</a></li>
+       <li><a href="https://babel.bootcss.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-babeljs.cn'])">Babeljs</a></li>
+       <li><a href="http://lodashjs.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-lodashjs.com'])">Lodash</a></li>
+       <li><a href="https://www.nodeapp.cn/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-nodeapp.cn'])">Node.js</a></li>
+       <li><a href="http://www.gruntjs.net/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-gruntjs.net'])">Grunt</a></li>
+       <li><a href="https://www.gulpjs.com.cn/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-gulpjs.com.cn'])">Gulp</a></li>
+       <li><a href="https://www.npmjs.com.cn/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-npmjs.com.cn'])">NPM</a></li>
+       <li><a href="https://www.webpackjs.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-webpackjs-com'])">webpack</a></li>
+       <li><a href="http://www.rollupjs.com/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-rollupjs-com'])">Rollup</a></li>
+       <li><a href="https://www.parceljs.cn/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-parceljs-cn'])">Parcel</a></li>
+       <li><a href="https://www.postcss.com.cn/" target="_blank" onclick="_hmt.push(['_trackEvent', 'footer', 'click', 'footer-postcss-com-cn'])">PostCSS</a></li>
+      </ul>
+     </div>
+    </div>
+   </div>
+  </footer>
+ </body>
+</html>

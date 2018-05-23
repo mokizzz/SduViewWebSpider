@@ -98,7 +98,7 @@ class SduViewSpider(scrapy.Spider):
                 # article content
                 item['newsContent'] = box.xpath('.//div[@class="news_content"]').extract()[0].strip()
                 regexp = re.compile(r'<[^>]+>', re.S)
-                item['newsContent'] = regexp.sub('',item['newsContent'])    # delete html <>
+                item['newsContent'] = regexp.sub('',item['newsContent'])    # delete templates <>
 
                 # 索引构建flag
                 item['indexed'] = 'False'
