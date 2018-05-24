@@ -77,7 +77,7 @@ class IndexBuilder:
 
 
 
-# --------此段代码用以在数据库中缺少indexed列时补充插入indexed--------
+# --------此段代码用以在数据库中缺少indexed字段时补充插入indexed字段并初始化为false--------
 # host = settings.MONGODB_HOST
 # port = settings.MONGODB_PORT
 # dbname = settings.MONGODB_DBNAME
@@ -87,7 +87,7 @@ class IndexBuilder:
 # post = mydb[sheetname]
 # post.update({}, {'$set':{'indexed':'False'}}, upsert=False, multi=True)   # 增加indexed项并初始化为False
 # post.update({'indexed': 'True'}, {'$set':{'indexed':'False'}})
-# ----------------------------------------------------------------
+# --------------------------------------------------------------------------------------
 
 
 id = IndexBuilder()

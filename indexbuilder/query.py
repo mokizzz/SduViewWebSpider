@@ -57,5 +57,5 @@ class Query:
         print('Query close.')
 
 
-# q = Query('../indexbuilder/index')
+# q = Query()
 # q.standard_search('软件园校区')
