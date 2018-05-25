@@ -1,4 +1,5 @@
 # README
+
 信息检索课程设计[sdu视点新闻](http://view.sdu.edu.cn/)全站爬虫爬取+索引构建+搜索引擎查询练习程序（1805）。
 
 |Author|爱吃大板|
@@ -11,7 +12,6 @@
 >
 >搜索网页界面用django实现，页面模板套用[BootCDN](http://www.bootcdn.cn/)。
 
-[TOC]
 
 ## 要求
 以下是检索的基本要求：可以利用lucene、nutch等开源工具，利用Python、Java等编程语言，但需要分别演示并说明原理。
