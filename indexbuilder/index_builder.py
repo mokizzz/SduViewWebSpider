@@ -89,6 +89,6 @@ class IndexBuilder:
 # post.update({'indexed': 'True'}, {'$set':{'indexed':'False'}})
 # --------------------------------------------------------------------------------------
 
-
-id = IndexBuilder()
-id.build_index()
+if __name__ == '__main__':
+    id = IndexBuilder()
+    id.build_index()
