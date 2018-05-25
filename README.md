@@ -11,6 +11,8 @@
 >
 >搜索网页界面用django实现，页面模板套用[BootCDN](http://www.bootcdn.cn/)。
 
+[TOC]
+
 ## 要求
 以下是检索的基本要求：可以利用lucene、nutch等开源工具，利用Python、Java等编程语言，但需要分别演示并说明原理。
 * 1. __Web网页信息抽取__
