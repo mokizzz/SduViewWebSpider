@@ -57,5 +57,7 @@ class Query:
         print('Query close.')
 
 
-# q = Query()
-# q.standard_search('软件园校区')
+## beta code
+if __name__ == '__main__':
+    q = Query()
+    q.standard_search('软件园校区')

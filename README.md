@@ -31,7 +31,7 @@
 
 * 如果不熟悉Whoosh库的构建索引和query搜索功能，可以参考运行 indexbuilder/sample.py 。
 
-* 运行 indexbuilder/query.py （取消最后两行注释）来测试搜索功能。
+* 运行 indexbuilder/query.py 来测试搜索功能。
 
 * 运行 searchengine/run_server.py 打开搜索网页服务器，在浏览器中打开[127.0.0.1:8000](127.0.0.1:8000)进入搜索页面执行搜索。
 
