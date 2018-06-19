@@ -1,4 +1,6 @@
 from django.shortcuts import render_to_response, HttpResponse
+import sys
+sys.path.append('..')
 from indexbuilder.query import Query
 
 q = Query('../indexbuilder/index')
