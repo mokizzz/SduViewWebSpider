@@ -12,7 +12,7 @@ class SduViewSpider(scrapy.Spider):
     # 允许访问的域
     allowed_domains = ['view.sdu.edu.cn']
     # 爬取的起始地址
-    start_urls = ['http://www.view.sdu.edu.cn/index.htm']
+    start_urls = ['https://www.view.sdu.edu.cn/index.htm']
     # 将要爬取的地址列表
     destination_list = start_urls
     # 已爬取地址md5集合
@@ -69,7 +69,7 @@ class SduViewSpider(scrapy.Spider):
         # 爬取当前网页
         print('start parse : ' + response.url)
         self.destination_list.remove(response.url)
-        if response.url.startswith("http://www.view.sdu.edu.cn/info/"):
+        if response.url.startswith("https://www.view.sdu.edu.cn/info/"):
             item = NewsItem()
             for box in response.xpath('//div[@class="new_show clearfix"]/div[@class="le"]'):
                 # article title
@@ -87,7 +87,7 @@ class SduViewSpider(scrapy.Spider):
                 parameters[0] = re.search(re.compile(r'\".*?\"'), parameters[0]).group(0)[1:-1]
                 parameters[1] = parameters[1].strip()
                 parameters[2] = parameters[2].strip()
-                request_url = 'http://www.view.sdu.edu.cn/system/resource/code/news/click/dynclicks.jsp'
+                request_url = 'https://www.view.sdu.edu.cn/system/resource/code/news/click/dynclicks.jsp'
                 request_data = {'clicktype': parameters[0], 'owner': parameters[1], 'clickid': parameters[2]}
                 request_get = requests.get(request_url, params=request_data)
                 item['newsClick'] = request_get.text
@@ -110,8 +110,10 @@ class SduViewSpider(scrapy.Spider):
         urls = response.xpath('//a/@href').extract()
         for url in urls:
             real_url = urljoin(response.url, url)   # 将.//等简化url转化为真正的http格式url
-            if not real_url.startswith('http://www.view.sdu.edu.cn'):
-                # and not real_url.startswith('http://view.sdu.edu.cn')
+            if real_url.startswith('http://'):  # 强制https
+                real_url = real_url.replace('http://', 'https://')
+            if not real_url.startswith('https://www.view.sdu.edu.cn'):
+                # and not real_url.startswith('https://view.sdu.edu.cn')
                 continue    # 保持爬虫在view.sdu.edu.cn之内
             if real_url.endswith('.jpg') or real_url.endswith('.pdf'):
                 continue    # 图片资源不爬
@@ -125,7 +127,7 @@ class SduViewSpider(scrapy.Spider):
             else:
                 self.binary_md5_url_insert(md5_url)
                 # print(md5_url)
-                # if real_url.startswith('http'):
+                # if real_url.startswith('https'):
                     # print(real_url)
                 self.destination_list.append(real_url)
                 yield scrapy.Request(real_url, callback=self.parse, errback=self.errback_httpbin)

@@ -16,6 +16,6 @@
         </ServerConfiguration>
       </list>
     </option>
-    <option name="shellPath" value="C:\Program Files\MongoDB\Server\4.2\bin\mongo.exe" />
+    <option name="shellPath" value="D:\Programmings\MongoDB\bin\mongo.exe" />
   </component>
 </project>
