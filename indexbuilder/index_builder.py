@@ -41,8 +41,8 @@ class IndexBuilder:
         # 索引构建
         writer = ix.writer()
         indexed_amount = 0
-        total_amount = self.pagesCollection.find().count()
-        false_amount = self.pagesCollection.find({'indexed': 'False'}).count()
+        total_amount = self.pagesCollection.count_documents({})
+        false_amount = self.pagesCollection.count_documents({'indexed': 'False'})
         print(false_amount, '/', total_amount)
         while True:
             try:

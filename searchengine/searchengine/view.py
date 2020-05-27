@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, HttpResponse
+from django.shortcuts import render, HttpResponse
 import sys
 sys.path.append('..')
 from indexbuilder.query import Query
@@ -6,7 +6,7 @@ from indexbuilder.query import Query
 q = Query('../indexbuilder/index')
 
 def search_form(request):
-    return render_to_response('main.html')
+    return render(request, 'main.html')
 
 def search(request):
     res = None
@@ -18,11 +18,11 @@ def search(request):
             'results': res,
         }
     else:
-        return render_to_response('main.html')
+        return render(request, 'main.html')
 
     # str = ''
     # for i in res:
     #     str += '<p><a href="' + i['newsUrl'] + '">' + i['newsTitle'] + '</a></p>'
     # return HttpResponse(str)
 
-    return render_to_response('result.html', c)
+    return render(request, 'result.html', c)
