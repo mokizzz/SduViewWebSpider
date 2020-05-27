@@ -97,12 +97,12 @@ MONGODB_SHEETNAME = "views"
 
 # 后进先出，深度优先
 # DEPTH_PRIORITY = 0
-# SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleLifoDiskQueue'
-# SCHEDULER_MEMORY_QUEUE = 'scrapy.squeue.LifoMemoryQueue'
+# SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleLifoDiskQueue'
+# SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.LifoMemoryQueue'
 # 先进先出，广度优先
 DEPTH_PRIORITY = 1
-SCHEDULER_DISK_QUEUE = 'scrapy.squeue.PickleFifoDiskQueue'
-SCHEDULER_MEMORY_QUEUE = 'scrapy.squeue.FifoMemoryQueue'
+SCHEDULER_DISK_QUEUE = 'scrapy.squeues.PickleFifoDiskQueue'
+SCHEDULER_MEMORY_QUEUE = 'scrapy.squeues.FifoMemoryQueue'
 
 # 断点续爬，Ctrl+C中断，下次自动继续爬
 # JOBDIR='pause'

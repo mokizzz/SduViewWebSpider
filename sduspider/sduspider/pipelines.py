@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import json
 import pymongo
-from scrapy.conf import settings
+from scrapy.utils.project import get_project_settings
+
+settings = get_project_settings()
 # Define your item pipelines here
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
