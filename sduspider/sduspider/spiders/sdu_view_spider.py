@@ -110,8 +110,8 @@ class SduViewSpider(scrapy.Spider):
         urls = response.xpath('//a/@href').extract()
         for url in urls:
             real_url = urljoin(response.url, url)   # 将.//等简化url转化为真正的http格式url
-            if real_url.startswith('http://'):  # 强制https
-                real_url = real_url.replace('http://', 'https://')
+            # if real_url.startswith('http://'):  # 强制https
+            #     real_url = real_url.replace('http://', 'https://')
             if not real_url.startswith('https://www.view.sdu.edu.cn'):
                 # and not real_url.startswith('https://view.sdu.edu.cn')
                 continue    # 保持爬虫在view.sdu.edu.cn之内
