@@ -2,16 +2,11 @@
 
 信息检索课程设计[sdu视点新闻](http://view.sdu.edu.cn/)全站爬虫爬取+索引构建+搜索引擎查询练习程序（1805）。
 
-|Author|爱吃大板|
-|---|---
-|E-mail|rayiooo@foxmail.com
-
 >爬虫功能使用Python的scrapy库实现，并用MongoDB数据库进行存储。
 >
 >索引构建和搜索功能用Python的Whoosh和jieba库实现。（由于lucene是java库，所以pyLucene库的安装极其麻烦，因此选用Python原生库Whoosh实现，并使用jieba进行中文分词。）
 >
 >搜索网页界面用django实现，页面模板套用[BootCDN](http://www.bootcdn.cn/)。
-
 
 ## 1 要求
 以下是检索的基本要求：可以利用lucene、nutch等开源工具，利用Python、Java等编程语言，但需要分别演示并说明原理。
